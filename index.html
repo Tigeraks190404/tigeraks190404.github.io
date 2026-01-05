@@ -1,11 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>General Store</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Social — Login</title>
+        <style>
+            :root{--bg:#0f1724;--card:#0b1220;--accent:#1d9bf0;--muted:#94a3b8;--success:#22c55e}
+            *{box-sizing:border-box}
+            html,body{height:100%}
+            body{margin:0;font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e6eef8;background:linear-gradient(180deg,#07101a 0%,#081223 100%);display:flex;align-items:center;justify-content:center;padding:24px}
+            .container{width:100%;max-width:980px;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center}
+            .brand{color:var(--accent)}
+            .left{padding:32px}
+            .hero{background:transparent;border-radius:12px;color:#cfe9ff}
+            h1{margin:0 0 12px;font-size:28px}
+            p.lead{margin:0 0 20px;color:var(--muted);line-height:1.4}
+            .features{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+            .feature{background:rgba(255,255,255,0.03);padding:12px;border-radius:10px}
+
+            .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:28px;border-radius:14px;box-shadow:0 6px 24px rgba(2,6,23,0.6);color:#e9f3ff}
+            form{display:flex;flex-direction:column;gap:12px}
+            label{font-size:13px;color:var(--muted)}
+            input[type=text],input[type=password]{width:100%;Padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.02);color:inherit;font-size:15px}
+            .row{display:flex;gap:12px;align-items:center;justify-content:space-between}
+            .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:0;background:var(--accent);color:white;font-weight:600;cursor:pointer}
+            .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#cfe9ff}
+            .socials{display:flex;gap:10px;margin-top:8px}
+            .social{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:rgba(255,255,255,0.01);display:flex;align-items:center;gap:8px;justify-content:center;cursor:pointer}
+            .muted{color:var(--muted);font-size:13px}
+            .links{display:flex;gap:12px;align-items:center}
+            .error{color:#ffb4b4;font-size:13px}
+            @media (max-width:900px){
+                .container{grid-template-columns:1fr;}
+            }
+        </style>
 </head>
 <body>
+        <main class="container">
+            <section class="left">
+                <div class="hero">
+                    <div class="brand" aria-hidden="true">Social</div>
+                    <h1>Welcome back — good to see you</h1>
+                    <p class="lead">Log in to continue to your feed, connect with friends, and share what matters. This is a hypothetical social app login page example.</p>
+
+                    <div class="features">
+                        <div class="feature">Follow creators you love</div>
+                        <div class="feature">Real-time updates</div>
+                        <div class="feature">Safe & private by design</div>
+                        <div class="feature">Customizable notifications</div>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="card" aria-labelledby="login-heading">
+                <h2 id="login-heading" style="margin:0 0 8px">Sign in to your account</h2>
+                <p class="muted" style="margin:0 0 16px">Use your email or continue with a social account.</p>
+
+                <form id="loginForm" novalidate>
+                    <div>
+                        <label for="user">Email or username</label>
+                        <input id="user" name="user" type="text" placeholder="you@example.com" required>
+                    </div>
+
+                    <div>
+                        <label for="password">Password</label>
+                        <input id="password" name="password" type="password" placeholder="Enter password" required>
+                    </div>
+
+                    <div class="row">
+                        <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="remember"> Remember me</label>
+                        <a class="muted" href="#">Forgot?</a>
+                    </div>
+
+                    <div class="row" style="margin-top:4px">
+                        <button type="submit" class="btn">Log in</button>
+                        <button type="button" class="btn secondary" onclick="fakeSignup()">Create account</button>
+                    </div>
+
+                    <div style="margin-top:12px">
+                        <div class="muted" style="margin-bottom:8px">Or continue with</div>
+                        <div class="socials">
+                            <div class="social" onclick="social('google')">🔎 Google</div>
+                            <div class="social" onclick="social('facebook')">📘 Facebook</div>
+                            <div class="social" onclick="social('twitter')">🐦 Twitter</div>
+                        </div>
+                    </div>
+
+                    <div id="status" style="margin-top:12px" aria-live="polite"></div>
+                </form>
+            </aside>
+        </main>
+
+        <script>
+            const form = document.getElementById('loginForm');
+            const status = document.getElementById('status');
+
+            form.addEventListener('submit', (e)=>{
+                e.preventDefault();
+                status.textContent = '';
+                const user = document.getElementById('user').value.trim();
+                const password = document.getElementById('password').value;
+                if(!user){ showError('Please enter your email or username'); return }
+                if(password.length < 6){ showError('Password must be at least 6 characters'); return }
+
+                // Hypothetical login flow — here we just simulate success
+                status.innerHTML = '<span style="color:var(--success)">Signed in successfully. Redirecting…</span>';
+                setTimeout(()=>{
+                    status.innerHTML = '<span class="muted">(This is a demo page — no real authentication is performed.)</span>';
+                },1200);
+            });
+
+            function showError(msg){ status.innerHTML = '<div class="error">'+msg+'</div>' }
+
+            function social(provider){
+                status.innerHTML = '<div class="muted">Opening '+provider+' sign-in (demo)…</div>';
+            }
+
+            function fakeSignup(){
+                status.innerHTML = '<div class="muted">Signup flow would open here (demo).</div>';
+            }
+        </script>
+    </body>
+</html>
     hii baby
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus cumque sit molestiae eos nobis assumenda quo a animi quasi est. Enim sunt autem quae consequatur dolorum culpa maxime eius magni.</p>
 </body>
